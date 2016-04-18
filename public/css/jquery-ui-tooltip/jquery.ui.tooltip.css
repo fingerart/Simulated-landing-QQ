@@ -1,0 +1,23 @@
+/*!
+ * jQuery UI Tooltip @VERSION
+ * http://jqueryui.com
+ *
+ * Copyright 2013 jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ *
+ * http://api.jqueryui.com/tooltip/#theming
+ */
+.ui-tooltip {
+	padding: 8px;
+	position: absolute;
+	z-index: 9999;
+	max-width:810px;
+	-webkit-box-shadow: 0 0 5px #aaa;
+	box-shadow: 0 0 5px #aaa;
+}
+body .ui-tooltip {
+	font: 10px/1.5 Tahoma,Arial,san-serif;	
+	text-shadow:#eee 1px 1px;
+	border-width: 2px;
+}

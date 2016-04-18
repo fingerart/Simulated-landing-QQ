@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>社团管理平台-QQ号批量登陆利器</title>
+<meta charset="UTF-8">
+<meta name="author" content="orange-http://FingerArt.me">
+<meta name="description" content="这是一个QQ号批量登陆工具，可选择密码、sid登陆方式，支持输入验证码，可24小时自动登录，永不掉线">
+<meta name="keywords" content="qq,qq登陆,qq批量登陆,sid登陆,24小时在线">
+<meta name="generator" content="zend studio">
+<meta name="revised" content="html5">
+<link rel="icon" href="" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="<{$public}>/css/basic.css" />
+<link rel="stylesheet" type="text/css" href="<{$public}>/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="<{$res}>/css/login_qq.css" />
+<link rel="stylesheet" href="<{$public}>/css/font-awesome.css">
+	<!--[if IE 7]>
+	<link rel="stylesheet" href="<{$public}>/css/font-awesome-ie7.css">
+	<![endif]-->
+<script src="<{$public}>/js/jquery.min.js"></script>
+</head>
+<body>
+<{include file="public/header.inc.html"}>
+	<div class="main-container container-fluid">
+		<div class="container" >
+			<div class="page-header">
+				<h3>
+					QQ号批量登陆利器 <small>即刻体验</small>
+				</h3>
+			</div>
+			<div class="alert alert-block alert-error fade in">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4 class="alert-heading"><i class="icon-warning-sign"> </i>提醒</h4>
+            <p>欢迎使用会员管理系统的<code>QQ号批量管理利器</code>. 本站在此声明, 我们不会恶意记录用户的账户密码, 请放心使用. 
+            	<span class="label label-important">分享到:</span>
+            	<!-- JiaThis Button -->
+				<span class="jiathis_style" style="display:inline-block;min-width:134px;">
+					<a class="jiathis_button_icons_1"></a>
+					<a class="jiathis_button_icons_2"></a>
+					<a class="jiathis_button_icons_3"></a>
+					<a class="jiathis_button_icons_4"></a>
+					<a href="http://www.jiathis.com/share?uid=1894479" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+					<a class="jiathis_counter_style"></a>
+				</span>
+			</p>
+          </div>
+			<ul class="nav nav-tabs" id="myTab">
+			  <li class="active"><a data-toggle="tab" href="#pwd">密码挂Q</a></li>
+			  <li><a data-toggle="tab" href="#sidGq">SID挂Q</a></li>
+			  <li><a data-toggle="tab" href="#messages">帮助与说明</a></li>
+			  <!-- <li><a data-toggle="tab" href="#settings">帮助</a></li> -->
+			</ul>
+			<div class="tab-content">
+			  <div class="tab-pane fade in active" id="pwd">
+				<form class="form-horizontal"  name="submitnum" style="display:inline-block;margin-bottom:0px;">
+				  <div class="control-group">
+				    <label class="control-label" for="num">账号及密码</label>
+				    <div class="controls">
+				    	<textarea id="num"  style="width:330px;" name="num" rows="4" placeholder="格式: QQ号----密码;"></textarea>
+				    </div>
+				  </div>
+				  <div class="control-group">
+				    <label class="control-label" >状态</label>
+				    <div class="controls">
+				      <label class="radio">
+						  <input type="radio" name="state" value="1" checked>在线
+						</label>
+				      <label class="radio">
+						  <input type="radio" name="state" value="2">隐身
+						</label>
+				    </div>
+			    </div>
+				  <div class="control-group">
+  				    <label class="control-label" >选择</label>
+				    <div class="controls">
+				      <label class="checkbox">
+				        <input type="checkbox"  id="sid" name="sid"> 自动生成SID
+				      </label>
+				      <label class="checkbox">
+				        <input type="checkbox" id="time24"> 24小时挂QQ(勿关闭本窗口,每30分钟自动刷新一次)
+				      </label>
+				        <button type="button" class="btn btn-large btn-inverse" id="submit" data-loading-text="Loading..."><i class="icon-ok"> </i>开始挂Q</button>
+				    </div>
+				  </div>
+				</form>
+				<div id="divsid" style="display:inline-block;vertical-align:top;padding-top:5px;">
+		     		<div class="well" style="display:none;width:360px;height:193px;margin-bottom:10px;overflow-y:auto;" id="sidtext">
+		     			<p class="muted">SID将在此自动生成.</p>
+					</div>
+	     		</div>
+				<div id="qqMeg"></div>
+				<div id="colockbox" class="alert alert-info fade in" style="display:none;"><a class="close" data-dismiss="alert" >&times;</a><i class="icon-lightbulb icon-2x"> </i>本次登陆完成, 将在 <span class="minute label label-inverse">00</span>分 <span class="second label label-inverse">00</span>秒 后自动进行第 <span id="cishu" class="badge badge-success"></span> 次登录. <label for="time24" class="btn btn-danger btn-mini" style="display:inline">停止</label></div>
+	     		<div class="progress progress-striped active hide" id="loading">
+				  <div class="bar" style="width: 100%;">loading...</div>
+				</div>
+			  </div>
+			  <div class="tab-pane fade" id="sidGq">
+			  	<form class="form-horizontal"  name="submitSid" style="display:inline-block;margin-bottom:0px;">
+				  <div class="control-group">
+				    <label class="control-label" for="num">账号及SID</label>
+				    <div class="controls">
+				    	<textarea id="qqAndSid"  style="width:330px;" rows="4" placeholder="格式: QQ号----SID"></textarea>
+				    </div>
+				  </div>
+				  <div class="control-group">
+  				    <label class="control-label" >选择</label>
+				    <div class="controls">
+				      <label class="checkbox">
+				        <input type="checkbox" id="sidTime24"> 24小时挂QQ(勿关闭本窗口,每30分钟自动刷新一次)
+				      </label>
+				        <button type="button" class="btn btn-large btn-inverse" id="submitSid" data-loading-text="Loading..."><i class="icon-ok"> </i>开始挂Q</button>
+				    </div>
+				  </div>
+				</form>
+				<div id="qqSidMeg"></div>
+				<div id="colockboxsid" class="alert alert-info fade in" style="display:none;"><a class="close" data-dismiss="alert" >&times;</a><i class="icon-bullhorn"> </i> 本次登陆完成, 将在 <span class="minute label label-inverse">00</span>分 <span class="second label label-inverse">00</span>秒 后自动进行第 <span id="cishuSid" class="badge badge-success"></span> 次登录. <label for="sidTime24" class="btn btn-danger btn-mini" style="display:inline">停止</label></div>
+	     		<div class="progress progress-striped active hide" id="sidLoading">
+				  <div class="bar" style="width: 100%;">loading...</div>
+				</div>
+			  </div>
+				<div class="tab-pane fade" id="messages">
+					<h4>QQ批量登陆利器</h4>
+					<p style="margin-left:30px;padding-left:10px;border-left:5px solid #eee;">　　QQ批量登陆利器主要为囤积大量QQ号的盆友一次性批量登陆QQ(主要作用:防止号码被腾讯回收;升级)的工具, 该工具一共分为<span class="label label-important">密码登陆</span>、<span class="label label-important">SID登陆</span>两种方式.<br>
+							　　本工具的登陆原理是模拟登陆3GQQ, 为做出任何盗取号码的后台, 请放心使用.<br>
+							　　如果你是PHP的学习者, 可以访问 <a href="http://FingerArt.me" target="_blank"><i class="icon-external-link"> </i>http://FingerArt.me(指尖上的艺术)</a> 查看该工具的核心源码.
+					</p>
+					<h4>密码登陆</h4>
+					<p style="margin-left:30px;padding-left:10px;border-left:5px solid #eee;">　　密码登陆方式即,需要填写你的QQ号及密码;<br>　　在该方式下可以选择自动生成SID, 获取到号码的SID后即可使用SID的登陆方式了, 使用SID登陆更加安全;<br>　　你可以勾选24小时全天登陆, 每30分钟(3GQQ自动在线30分钟)会自动登录一次, 不能关闭窗口, 否则不会操作成功.<br>
+						<span style="display:inline-block;margin:0 30px;">
+							<strong>格式</strong><br>
+							QQ1----密码1<i class="icon-arrow-down"></i><br>
+							QQ2----密码2<i class="icon-arrow-down"></i><br>
+							QQ3----密码3<i class="icon-arrow-down"></i>
+						</span>
+						<span style="display:inline-block;">
+							<strong>例如:</strong><br>
+							1234567890----password<br>
+							1234567890----password<br>
+							1234567890----password
+						</span>
+					</p>
+					<h4>SID登陆</h4>
+					<p style="margin-left:30px;padding-left:10px;border-left:5px solid #eee;">　　SID登陆方式即,只需要填写你的QQ号及SID;<br>　　你可以勾选24小时全天登陆, 每30分钟(3GQQ自动在线30分钟)会自动登录一次, 不能关闭窗口, 否则不会操作成功;<br>　　SID登陆无须输入验证码即可直接登陆成功, 相比前一种方式是安全、快捷的, 需要注意的是SID的有效期是30天.<br>
+						<span style="display:inline-block;margin:0 30px;">
+							<strong>格式</strong><br>
+							QQ1----SID1<i class="icon-arrow-down"></i><br>
+							QQ2----SID2<i class="icon-arrow-down"></i><br>
+							QQ3----SID3<i class="icon-arrow-down"></i>
+						</span>
+						<span style="display:inline-block;">
+							<strong>例如:</strong><br>
+							1234567890----AZ2791dW7rJK10knRPO86L7d<br>
+							1234567890----AZ2791dW7rJK10knRPO86L7d<br>
+							1234567890----AZ2791dW7rJK10knRPO86L7d
+						</span>
+					</p>
+					<h4>什么是SID</h4>
+					<p style="margin-left:30px;padding-left:10px;border-left:5px solid #eee;">　　SID来自登陆3GQQ后的网址中:<code>http://q32.3g.qq.com/g/s?aid=nqqchatMain&sid=<span class="color_green">AZ2791Yq7rJK90knvPO86L7d</span>&myqq=10865012</code>,SID每30天会被重新分配一个, 所以SID的有效期是30天; 因为腾讯为了兼容不支持COOKIE的手机, 所以会在地址上带上SID来识别用户.<br>
+					</p>
+				</div>
+			  <!-- <div class="tab-pane fade" id="settings">..sds.</div> -->
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="<{$public}>/js/bootstrap.min.js" ></script>
+	
+	<!-- JiaThis Button BEGIN -->
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1894479" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+	
+	<script type="text/javascript" >
+	timer = null,
+	cishu=1,
+	cishuSid=1;//计算登陆次数
+	  $(function () {
+		  $('.main-container').css("min-height",($(window).height()-105)+"px");
+		//分享
+		var jiathis_config = {data_track_clickback:'true'};
+		//QQ+密码登陆
+          $('button#submit').click(function() {
+        	  if(timer!=null)
+					clearInterval(timer);
+				$('button#submit').button('loading');
+				$('div#qqMeg').slideUp('fate').html("").slideDown('fate');
+				$('div#loading').slideDown('fate');
+				$('#colockbox').slideUp('fate');
+				if($('input[id=sid]').is(':checked')==true)
+					$('div[id=sidtext]').html('');
+				ajaxCalbackQq($('textarea[id=num]').val().split('\n'));
+          });
+
+  		//QQ+SID登陆
+            $('button#submitSid').click(function() {
+          	  if(timer!=null)
+  					clearInterval(timer);
+  				$('button#submitSid').button('loading');
+  				$('div#qqSidMeg').slideUp('fate').html("").slideDown('fate');
+  				$('div#sidLoading').slideDown('fate');
+  				$('#colockboxsid').slideUp('fate');
+          	  ajaxCalbackSid($('textarea[id=qqAndSid]').val().split('\n'));
+            });
+		
+		  //是否生成sid
+		  $('input[id=sid]').change(function() {
+			  $('div[id=sidtext]').slideToggle('fate');
+		  	});
+		  $('input[id=time24]').change(function () {
+			  if($(this).is(':checked')!=true)
+				  clearInterval(timer);
+		});
+		  $('input[id=sidTime24]').change(function () {
+			  if($(this).is(':checked')!=true)
+				  clearInterval(timer);
+		});
+		  
+	  });
+	
+	  function ajaxCalbackQq(qqData) {
+			var qqText = '';
+			var arr = qqData.splice(0, 8);
+			for(var i=0;i<arr.length;i++)
+				qqText += arr[i]+"\r\n";
+			$.ajax({
+					url:'<{$url}>/ajaxLoginQq', //请求验证页面
+					type:'POST', //请求方式 可换为post 注意验证页面接收方式
+					data:"num="+qqText+"&sid="+$('input[id=sid]').is(':checked')+"&state="+$('input[name=state]:checked').val(),
+					beforeSend:function(){
+					},
+					success: function(data) { //请求成功时执行操作
+						$('div[id=qqMeg]').append(data["msg"]);
+						$('div[id=sidtext]').append(data["sid"]);
+						//$("div[id="+num+"]").html(data);
+						if(qqData!='') {
+							ajaxCalbackQq(qqData);
+							$("html,body").animate({scrollTop: $("#loading").offset().top}, 3000);
+						}else {
+							$('button#submit').button('reset');
+							$('div#loading').slideUp('fate');
+							if($('input[id=time24]').is(':checked')==true) {
+								$('#colockbox').slideDown('fate');
+			  					//调用倒计时函数
+								countDown(1800,"#colockbox",'button#submit');
+			  					$("span#cishu").html(++cishu);
+							}
+							$('div[id=qqMeg]').append('<script tytp="text/javascript">$(function() {$("a[name=submit]").click(function() {var num = $(this).attr("id");$.ajax({url:"<{$url}>/ajaxLoginQq_key",type:"POST",data:$("form[name="+num+"]").serialize()+"&isSid="+$("input[id=sid]").is(":checked"),beforeSend:function(){$("#"+num+"head").attr("src","<{$public}>/images/loading.gif");$("#"+num+"update").html(\'<i class="icon-spinner icon-spin"></i>\');$("#"+num+"lv").attr("src","<{$public}>/images/ajax-loader.gif");},success: function(data) { if(data["profile"]!=null) {$("#"+num+"head").attr("src","http://221.233.41.38/images/face/bigface/"+data["profile"]["head_num"]+".gif");$("#"+num+"name").html(data["profile"]["name"]);$("#"+num+"lv").attr("src","http://3gimg.qq.com/3gqq/lv/"+data["profile"]["lv"]+".png");$("#"+num+"update").html(data["profile"]["update"]);}if(data["sid"]!=null)$("div#sidtext").append(data["sid"]);$("div[id="+num+"]").html(data["msg"]);}});});});<\/script>');
+							$("html,body").animate({scrollTop: $("#loading").offset().top}, 3000);
+						}
+					}
+				});
+			}
+	/*SID登陆的Ajax回调函数*/
+	function ajaxCalbackSid(sidData) {
+		var sidText = '';
+		var arr = sidData.splice(0, 8);
+		for(var i=0;i<arr.length;i++)
+			sidText += arr[i]+"\r\n";
+		$.ajax({
+				url:'<{$url}>/ajaxLoginQqSid', //请求验证页面
+				type:'POST', //请求方式 可换为post 注意验证页面接收方式
+				data:"sid="+sidText,
+				beforeSend:function(){
+				},
+				success: function(data) { //请求成功时执行操作
+					$('div[id=qqSidMeg]').append(data);
+					//$("div[id="+num+"]").html(data);
+					if(sidData!='') {
+						ajaxCalbackSid(sidData);
+						$("html,body").animate({scrollTop: $("#sidLoading").offset().top}, 3000);
+					}else {
+						$('button#submitSid').button('reset');
+						$('div#sidLoading').slideUp('fate');
+						if($('input[id=sidTime24]').is(':checked')==true) {
+							$('#colockboxsid').slideDown('fate');
+		  					//调用倒计时函数
+							countDown(1800,"#colockboxsid",'button#submitSid');
+		  					$("span#cishuSid").html(++cishuSid);
+						}
+						$('div[id=qqSidMeg]').append("<script type='text/javascript'>$(function() {$('a[name=submitSid]').click(function() {var num = $(this).attr('id');$.ajax({url:'<{$url}>/ajaxSidLoginQq_key', type:'POST', data:$('form[name='+num+']').serialize(),beforeSend:function(){},success: function(data) {if(data['profile']['head_num']!=null) {$('#'+num+'head').attr('src','http://221.233.41.38/images/face/bigface/'+data['profile']['head_num']+'.gif');$('#'+num+'name').html(data['profile']['name']);$('#'+num+'lv').attr('src','http://3gimg.qq.com/3gqq/lv/'+data['profile']['lv']+'.png');$('#'+num+'update').html(data['profile']['update']);$('#'+num).text('');}else $('#'+num).text('验证码错误.')}});});});<\/script>");
+						$("html,body").animate({scrollTop: $("#sidLoading").offset().top}, 3000);
+					}
+				}
+			});
+		}
+	  
+  //倒计时
+  function countDown(sys_second,id,butId){
+		var day_elem = $(id).find('.day');
+		var hour_elem = $(id).find('.hour');
+		var minute_elem = $(id).find('.minute');
+		var second_elem = $(id).find('.second');
+		timer = setInterval(function(){
+			if (sys_second > 0) {
+				sys_second -= 1;
+				var day = Math.floor((sys_second / 3600) / 24);
+				var hour = Math.floor((sys_second / 3600) % 24);
+				var minute = Math.floor((sys_second / 60) % 60);
+				var second = Math.floor(sys_second % 60);
+				day_elem && $(day_elem).text(day);//计算天
+				$(hour_elem).text(hour<10?"0"+hour:hour);//计算小时
+				$(minute_elem).text(minute<10?"0"+minute:minute);//计算分钟
+				$(second_elem).text(second<10?"0"+second:second);//计算秒杀
+			} else {
+				$(butId).click();
+			}
+		}, 1000);
+	}
+	</script>
+	<{include file="public/footer.inc.html"}>
